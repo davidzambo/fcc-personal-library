@@ -7,9 +7,6 @@ export class BookController {
     public static read(req: Request, res: Response) {
     }
 
-    public static update(req: Request, res: Response) {
-    }
-
     public static delete(req: Request, res: Response) {
     }
 

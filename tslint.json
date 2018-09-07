@@ -11,7 +11,7 @@
     "max-line-length": {
       "options": [120]
     },
-    "new-parens": true,
+    "new-parents": true,
     "no-arg": true,
     "no-bitwise": true,
     "no-conditional-assignment": true,
@@ -29,6 +29,7 @@
     },
     "no-var-keyword": true,
     "no-unused-variable": true,
+    "object-literal-sort-keys": false,
     "typedef-whitespace": [true, {
       "call-signature": "space",
       "parameter": "nospace",
