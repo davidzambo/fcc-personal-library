@@ -1,22 +1,38 @@
 import * as dotenv from "dotenv";
-dotenv.config();
 
-export const config: any = () => {
-    switch (process.env.NODE_ENV) {
-        case "test":
-            return {
-                DB: process.env.DB_ADDRESS_TEST,
-                PORT: 5000,
-            };
-        case "production":
-            return {
-                DB: process.env.DB_ADDRESS_PROD,
-                PORT: 4000,
-            };
-        default:
-            return {
-                DB: process.env.DB_ADDRESS_DEV,
-                PORT: 3000,
-            };
 
+export interface ConfigInterface {
+    getDB() : string;
+    getPort() : number;
+}
+
+export class Config implements ConfigInterface {
+    private DB: string;
+    private PORT: number;
+
+    public constructor() {
+        dotenv.config();
+        switch (process.env.NODE_ENV) {
+            case "test":
+                this.DB = process.env.DB_ADDRESS_TEST;
+                this.PORT = 5000;
+                break;
+            case "production":
+                this.DB = process.env.DB_ADDRESS_PROD;
+                this.PORT = 4000;
+                break;
+            default:
+                this.DB = process.env.DB_ADDRESS_DEV;
+                this.PORT = 3000;
+                break;
+        }
+    }
+
+    public getDB() {
+        return this.DB;
+    }
+
+    public getPort() {
+        return this.PORT;
+    }
 }

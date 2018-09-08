@@ -2,6 +2,7 @@ import * as bodyParser from "body-parser";
 import * as express from "express";
 import * as helmet from "helmet";
 import * as moment from "moment";
+import { Config } from "./lib/config";
 import { Router } from "./router/router";
 
 interface ServerInterface {
@@ -37,7 +38,8 @@ export class Server implements ServerInterface {
     }
 }
 
-const server = new Server(process.env.PORT);
+const config = new Config();
+const server = new Server(config.getPort());
 
 try {
     server.init();
