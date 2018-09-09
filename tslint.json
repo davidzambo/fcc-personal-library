@@ -28,8 +28,21 @@
       ]
     },
     "no-var-keyword": true,
+    "no-unused-expression": false,
     "no-unused-variable": true,
     "object-literal-sort-keys": false,
+    "trailing-comma": [
+      false,
+      {
+        "multiline": {
+          "objects": "never",
+          "arrays": "always",
+          "functions": "never",
+          "typeLiterals": "ignore"
+        },
+        "esSpecCompliant": true
+      }
+    ],
     "typedef-whitespace": [true, {
       "call-signature": "space",
       "parameter": "nospace",

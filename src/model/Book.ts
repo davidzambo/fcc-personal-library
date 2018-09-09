@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import { commentSchema } from "./Comment";
 
 export const bookSchema: Schema = new Schema({
@@ -16,3 +16,5 @@ export const bookSchema: Schema = new Schema({
         system: String,
     },
 });
+
+export const Book = model("Book", bookSchema);
