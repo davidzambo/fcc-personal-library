@@ -3,8 +3,7 @@ import { connect, Types } from "mongoose";
 import { Config } from "../lib/config";
 import { Book } from "../model/Book";
 
-const config = new Config();
-connect(config.getDB(), {useNewUrlParser: true});
+connect(new Config().getDB(), {useNewUrlParser: true});
 
 export class BookController {
     /**

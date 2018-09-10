@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 export const commentSchema = new Schema({
     comment: {
@@ -14,3 +14,5 @@ export const commentSchema = new Schema({
         system: String,
     },
 });
+
+export const Comment = model("Comment", commentSchema);

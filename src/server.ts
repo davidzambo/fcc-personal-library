@@ -25,6 +25,7 @@ export class Server implements ServerInterface {
         this.app.use(bodyParser.json({limit: "50mb"}));
         this.app.use(bodyParser.urlencoded({ limit: "50mb", extended: true}));
         this.app.use(helmet());
+        this.app.use(helmet.noCache());
         this.app.use(helmet.hidePoweredBy({setTo: "PHP 4.2"}));
         this.app.locals.moment = moment;
 
