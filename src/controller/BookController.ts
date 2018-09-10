@@ -6,10 +6,13 @@ import { Book } from "../model/Book";
 const config = new Config();
 connect(config.getDB(), {useNewUrlParser: true});
 
+/**
+ * class BookController
+ */
 export class BookController {
     /**
-     * Store a new book, returns _id and title
-     * or an error message
+     * Store a new book, returns _id and title or an error message
+     *
      * @param req
      * @param res
      */
@@ -39,6 +42,7 @@ export class BookController {
 
     /**
      * Fetch all books and transforms theirs data into a requested form
+     *
      * @param req
      * @param res
      */
@@ -58,6 +62,12 @@ export class BookController {
     public static delete(req: Request, res: Response) {
     }
 
+    /**
+     * Show a specific book
+     *
+     * @param req
+     * @param res
+     */
     public static async show(req: Request, res: Response) {
         try {
             const id = Types.ObjectId(req.params.id);

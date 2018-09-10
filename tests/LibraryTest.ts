@@ -183,7 +183,52 @@ describe("Library Test", () => {
                     expect(res.body.book.title).to.equal(book.title);
                 });
         });
+    });
 
+    describe("POST /api/books/:id", () => {
+        it("should return 'no book exists' on invalid id", (done: any) => {
+            chai.request(server.app)
+                .post("/api/books/something")
+                .end((err: any, res: any) => {
+                    expect(res).to.be.json;
+                    expect(res.body).to.have.property("book");
+                    expect(res.body.book).to.be.equal("no book exists");
+                    done();
+                });
+        });
 
+        it("should return 'no book exists' on valid id but not existing book", (done: any) => {
+            chai.request(server.app)
+                .post("/api/books/5b94d60d95e3fa18e8534e58")
+                .end((err: any, res: any) => {
+                    expect(res).to.be.json;
+                    expect(res.body).to.have.property("book");
+                    expect(res.body.book).to.be.equal("no book exists");
+                    done();
+                });
+        });
+
+        it("should return error message on missing comment", async () => {
+            const book: any = await Book.findOne({});
+            chai.request(server.app)
+                .post(`/api/books/${book._id}`)
+                .end((err: any, res: any) => {
+                    expect(res).to.be.json;
+                    expect(res.body).to.have.property("error");
+                    expect(res.body.error).to.be.equal("missing comment");
+                });
+        });
+
+        it("should return an updated book", async () => {
+            const book: any = await Book.findOne({});
+            chai.request(server.app)
+                .post(`/api/books/${book._id}`)
+                .send({ comment: "new comment" })
+                .end((err: any, res: any) => {
+                    expect(res).to.be.json;
+                    expect(res.body).to.have.property("book");
+                    expect(res.body.book.comments.length).to.be.equal(book.comments.length + 1);
+                });
+        });
     });
 });
