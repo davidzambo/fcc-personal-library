@@ -1,9 +1,9 @@
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 export const commentSchema = new Schema({
     comment: {
       type: String,
-      required: "Please submit a comment",
+      required: "missing comment",
     },
     created_at: {
         type: Date,
@@ -14,3 +14,5 @@ export const commentSchema = new Schema({
         system: String,
     },
 });
+
+export const Comment = model("Comment", commentSchema);
