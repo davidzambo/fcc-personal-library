@@ -78,7 +78,7 @@ describe("Library Test", () => {
                 });
         });
 
-        it("should return an error", (done: any) => {
+        it("should returns an error", (done: any) => {
             chai.request(server.app)
                 .post("/api/books")
                 .end((err: any, res: any) => {
@@ -149,7 +149,7 @@ describe("Library Test", () => {
     });
 
     describe("GET /api/books/:id", () => {
-        it("should return 'no book exists' on invalid id", (done: any) => {
+        it("should returns 'no book exists' on invalid id", (done: any) => {
             chai.request(server.app)
                 .get("/api/books/something")
                 .end((err: any, res: any) => {
@@ -160,7 +160,7 @@ describe("Library Test", () => {
                 });
         });
 
-        it("should return 'no book exists' on valid id but not existing book", (done: any) => {
+        it("should returns 'no book exists' on valid id but not existing book", (done: any) => {
             chai.request(server.app)
                 .get("/api/books/5b94d60d95e3fa18e8534e58")
                 .end((err: any, res: any) => {
@@ -171,7 +171,7 @@ describe("Library Test", () => {
                 });
         });
 
-        it("should return a book", async () => {
+        it("should returns a book", async () => {
             const book: any = await Book.findOne({});
             chai.request(server.app)
                 .get("/api/books/" + book._id)
@@ -186,7 +186,7 @@ describe("Library Test", () => {
     });
 
     describe("POST /api/books/:id", () => {
-        it("should return 'no book exists' on invalid id", (done: any) => {
+        it("should returns 'no book exists' on invalid id", (done: any) => {
             chai.request(server.app)
                 .post("/api/books/something")
                 .end((err: any, res: any) => {
@@ -197,7 +197,7 @@ describe("Library Test", () => {
                 });
         });
 
-        it("should return 'no book exists' on valid id but not existing book", (done: any) => {
+        it("should returns 'no book exists' on valid id but not existing book", (done: any) => {
             chai.request(server.app)
                 .post("/api/books/5b94d60d95e3fa18e8534e58")
                 .end((err: any, res: any) => {
@@ -208,7 +208,7 @@ describe("Library Test", () => {
                 });
         });
 
-        it("should return error message on missing comment", async () => {
+        it("should returns error message on missing comment", async () => {
             const book: any = await Book.findOne({});
             chai.request(server.app)
                 .post(`/api/books/${book._id}`)
@@ -219,7 +219,7 @@ describe("Library Test", () => {
                 });
         });
 
-        it("should return an updated book", async () => {
+        it("should returns an updated book", async () => {
             const book: any = await Book.findOne({});
             chai.request(server.app)
                 .post(`/api/books/${book._id}`)
@@ -228,6 +228,41 @@ describe("Library Test", () => {
                     expect(res).to.be.json;
                     expect(res.body).to.have.property("book");
                     expect(res.body.book.comments.length).to.be.equal(book.comments.length + 1);
+                });
+        });
+    });
+
+    describe("DELETE /api/books/:id", () => {
+        it("should returns 'no book exists' on invalid id", (done: any) => {
+            chai.request(server.app)
+                .del("/api/books/something")
+                .end((err: any, res: any) => {
+                   expect(res).to.be.json;
+                   expect(res.body).to.have.property("book");
+                   expect(res.body.book).to.be.equal("no book exists");
+                   done();
+                });
+        });
+
+        it("should returns 'no book exists' on valid id, but not existing book", (done: any) => {
+            chai.request(server.app)
+                .del("/api/books/5b94d60d95e3fa18e8534e58")
+                .end((err: any, res: any) => {
+                    expect(res).to.be.json;
+                    expect(res.body).to.have.property("book");
+                    expect(res.body.book).to.be.equal("no book exists");
+                    done();
+                });
+        });
+
+        it("should delete a book", async () => {
+            const book = await Book.findOne({});
+            chai.request(server.app)
+                .del("/api/books/" + book._id)
+                .end((err: any, res: any) => {
+                    expect(res).to.be.json;
+                    expect(res.body).to.have.property("book");
+                    expect(res.body.book).to.be.equal("delete successful");
                 });
         });
     });
