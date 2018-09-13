@@ -20,14 +20,12 @@ export class CommentController {
     public static async create(req: Request, res: Response) {
         try {
             /**
-             * Throws error on invalid or missing _id
+             * Handle invalid _id
              */
             if (!Types.ObjectId.isValid(req.params.id)) {
-                console.log("invalid");
                 throw new Error("no book exists");
-            } else {
-                console.log("valid");
             }
+
             const id = new Types.ObjectId(req.params.id);
             const book: any = await Book.findOne({_id: id});
 
@@ -59,11 +57,9 @@ export class CommentController {
             });
         } catch (e) {
             let response: any;
-            console.log(e);
-
             if (e.name === "ValidationError" && e.errors && e.errors.comment) {
                 response = {
-                    error: e.errors.comment,
+                    error: e.errors.comment.message,
                 };
             } else {
                 response = {
