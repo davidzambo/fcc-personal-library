@@ -8,5 +8,5 @@ try {
     server.init();
 } catch (e) {
     // tslint:disable-next-line
-    console.log(e.message);
+    console.log(e);
 }

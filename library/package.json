@@ -1,0 +1,26 @@
+{
+  "name": "library",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:3000",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@types/axios": "^0.14.0",
+    "axios": "^0.18.0",
+    "vue": "^2.5.17",
+    "vue-class-component": "^6.2.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.3",
+    "@vue/cli-plugin-typescript": "^3.0.3",
+    "@vue/cli-service": "^3.0.3",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.1",
+    "typescript": "^3.0.0",
+    "vue-template-compiler": "^2.5.17"
+  }
+}

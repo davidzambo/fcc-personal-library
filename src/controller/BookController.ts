@@ -59,7 +59,33 @@ export class BookController {
         });
     }
 
-    public static delete(req: Request, res: Response) {
+    /**
+     * Delete a specific book
+     * @param req
+     * @param res
+     */
+    public static async delete(req: Request, res: Response) {
+        try {
+            /**
+             * Handle invalid _id
+             */
+            if (!Types.ObjectId.isValid(req.params.id)) {
+                throw new Error("no book exists");
+            }
+
+            const id = Types.ObjectId(req.params.id);
+            const book: any = await Book.findOne({_id: id});
+
+            if (!book) {
+                throw new Error("no book exists");
+            }
+
+            await book.remove();
+
+            return res.json({ book: "delete successful"});
+        } catch (e) {
+            return res.json({ book: e.message });
+        }
     }
 
     /**
@@ -70,6 +96,13 @@ export class BookController {
      */
     public static async show(req: Request, res: Response) {
         try {
+            /**
+             * Handle invalid _id
+             */
+            if (!Types.ObjectId.isValid(req.params.id)) {
+                throw new Error("no book exists");
+            }
+
             const id = Types.ObjectId(req.params.id);
             const book: any = await Book.findOne({_id: id});
 
@@ -86,7 +119,7 @@ export class BookController {
             });
         } catch (e) {
             return res.json({
-                book: "no book exists"
+                book: e.message
             });
         }
     }

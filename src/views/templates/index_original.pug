@@ -1,0 +1,80 @@
+extends layout
+block content
+    div.row.px-md-4.justify-content-center#content
+        div.col-12.col-md-4.col-lg-3.py-2.py-md-4
+            div.card
+                h3.card-header Create new issue
+                form.form-horizontal.card-body(action="/api/issues/apitest" method="POST")
+                    div.form-group
+                        input.form-control(type=text name="issue_title" placeholder="Issue title*")
+                    div.form-group
+                        textarea.form-control(name="issue_text" placeholder="Issue text*")
+                    div.form-group
+                        input.form-control(type=text name="created_by" placeholder="Created by*" rows="5")
+                    div.form-group
+                        input.form-control(type=text name="assigned_to" placeholder="(opt) Assigned to" rows="5")
+                    div.form-group
+                        input.form-control(type=text name="status_text" placeholder="(opt) Status text" rows="5")
+                    button.btn.btn-outline-success submit
+        div.col-12.col-md-4.col-lg-3.py-2.py-md-4
+            div.card
+                h3.card-header Update issue
+                form.form-horizontal.card-body(action="/api/issues/apitest" method="PUT")
+                    div.form-group
+                        input.form-control(type=text name="_id" placeholder="Issue id*")
+                    div.form-group
+                        input.form-control(type=text name="issue_title" placeholder="Issue title*")
+                    div.form-group
+                        textarea.form-control(name="issue_text" placeholder="Issue text*")
+                    div.form-group
+                        input.form-control(type=text name="created_by" placeholder="Created by*" rows="5")
+                    div.form-group
+                        input.form-control(type=text name="assigned_to" placeholder="(opt) Assigned to" rows="5")
+                    div.form-group
+                        input.form-control(type=text name="status_text" placeholder="(opt) Status text" rows="5")
+                    div.form-group
+                        label.form-label status:
+                        select.form-control.custom-select(name="open")
+                            option(value="true") open
+                            option(value="false") closed
+                    button.btn.btn-outline-warning update
+        div.col-12.col-md-4.col-lg-3.py-2.py-md-4
+            div.card
+                h3.card-header Delete issue
+                form.form-horizontal.card-body(action="/api/issues/apitest" method="DELETE")
+                    div.form-group
+                        input.form-control(type=text name="_id" placeholder="Issue id*")
+                    button.btn.btn-outline-danger delete
+        div.col-12.col-md-4.col-lg-3.py-2.py-md-4
+            div.card
+                h3.card-header Get issues
+                form.form-horizontal.card-body(action="/api/issues/apitest" method="GET")
+                    div.form-group
+                        input.form-control(type=text name="_id" placeholder="(opt) Issue id")
+                    div.form-group
+                        input.form-control(type=text name="issue_title" placeholder="(opt) Issue title")
+                    div.form-group
+                        textarea.form-control(name="issue_text" placeholder="(opt) Issue text")
+                    div.form-group
+                        input.form-control(type=text name="created_by" placeholder="(opt) Created by" rows="5")
+                    div.form-group
+                        input.form-control(type=text name="assigned_to" placeholder="(opt) Assigned to" rows="5")
+                    div.form-group
+                        input.form-control(type=text name="status_text" placeholder="(opt) Status text" rows="5")
+                    div.form-group
+                        label.form-label status:
+                        select.form-control.custom-select(name="open")
+                            option(value="") any
+                            option(value="true") open
+                            option(value="false") closed
+                    div.form-group
+                        label.form-label response_type:
+                        select.form-control.custom-select(name="response_type")
+                            option(value="json") json
+                            option(value="render") render
+                    button.btn.btn-outline-primary get
+    div.row.px-md-4.justify-content-center#result(style="display:none")
+        div.col-12
+            h3 API response:
+            pre
+                code#response

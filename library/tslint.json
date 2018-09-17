@@ -12,6 +12,7 @@
   "rules": {
     "class-name": true,
     "encoding": true,
+    "experimentalDecorators": true,
     "indent": [true, "spaces", 4],
     "interface-name": [true, "never-prefix"],
     "max-line-length": {
@@ -38,6 +39,7 @@
     "no-unused-variable": true,
     "object-literal-sort-keys": false,
     "ordered-imports": true,
+    "quotemark": [true, "double"],
     "trailing-comma": [
       false,
       {

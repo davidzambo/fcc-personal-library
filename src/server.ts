@@ -19,8 +19,10 @@ export class Server implements ServerInterface {
     }
 
     public init() {
-        this.app.set("views", "./views");
-        this.app.set("view engine", "pug");
+        // this.app.set("views", "./views");
+        // tslint:disable-next-line
+        console.log("Initializing app...");
+        this.app.use(express.static(__dirname + "/views/"));
         this.app.use(express.static("./public"));
         this.app.use(bodyParser.json({limit: "50mb"}));
         this.app.use(bodyParser.urlencoded({ limit: "50mb", extended: true}));
