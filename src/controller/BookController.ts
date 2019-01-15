@@ -47,16 +47,25 @@ export class BookController {
      * @param res
      */
     public static async read(req: Request, res: Response) {
-        const library = await Book.find();
-        res.json({
-            books: library.map((book: any) => {
-                return {
-                    _id: book._id,
-                    title: book.title,
-                    commentcount: book.comments.length,
-                };
-            }),
-        });
+        let response = {};
+        try {
+            const library = await Book.find();
+            response = {
+                books: library.map((book: any) => {
+                    return {
+                        _id: book._id,
+                        title: book.title,
+                        commentcount: book.comments.length,
+                    };
+                }),
+            };
+        } catch (e) {
+            response = {
+                error: e
+            };
+        } finally {
+            res.json(response);
+        }
     }
 
     /**

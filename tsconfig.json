@@ -16,8 +16,8 @@
     }
   },
   "exclude": [
-    "node_modules",
-    "tests",
-    "library"
+    "node_modules/",
+    "tests/",
+    "client/"
   ]
 }

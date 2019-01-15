@@ -24,6 +24,7 @@ export class Server implements ServerInterface {
         console.log("Initializing app...");
         this.app.use(express.static(__dirname + "/views/"));
         this.app.use(express.static("./public"));
+        this.app.set('json spaces', 4);
         this.app.use(bodyParser.json({limit: "50mb"}));
         this.app.use(bodyParser.urlencoded({ limit: "50mb", extended: true}));
         this.app.use(helmet());

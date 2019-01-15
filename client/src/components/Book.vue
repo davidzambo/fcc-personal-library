@@ -7,10 +7,9 @@
             <span class="badge badge-primary badge-pill">{{ renderComments }}</span>
         </span>
         <span class="ml-auto">
-            <a href="/book/{{book._id}}" class="btn btn-sm btn-primary mr-1">
-                view book
-            </a>
-            <button class="btn btn-sm btn-danger" @click=deleteBook()>delete book</button>
+            <button @click="viewBookDetails(book)" class="btn btn-sm btn-primary mr-1">
+                view details
+            </button>
         </span>
     </li>
 </template>
@@ -21,10 +20,15 @@
 
     const BookProps = Vue.extend({
         props: {
-            book: Object
+            book: Object,
+            showDetails: Function,
         }
     });
+
     export default class Book extends BookProps {
+        public constructor(props: any) {
+            super(props);
+        }
 
         public get renderComments() {
             let result = this.book.commentcount;
@@ -44,6 +48,11 @@
                 // tslint:disable
                 console.log(e);
             }
+        }
+
+        public viewBookDetails(book: any): void {
+            console.log(this.$props);
+            this.$props.showDetails(book);
         }
     }
 </script>
