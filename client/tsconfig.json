@@ -11,6 +11,7 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "strictPropertyInitialization": false,
     "types": [
       "node"
     ],
@@ -28,6 +29,7 @@
   },
   "include": [
     "src/**/*.ts",
+    "src/**/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",

@@ -1,5 +1,7 @@
 <template>
-    <div class="modal" v-bind:class="{ open: isOpen }" id="book-details" tabindex="1" role="dialog" aria-hidden="false">
+    <div class="modal"
+         v-bind:class="{ open: library.isBookDetailModalOpen }"
+         tabindex="1" role="dialog" aria-hidden="false">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -13,18 +15,36 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p><strong>Title:</strong> {{ book.title}}</p>
-                    <p>This book has {{ book.comments && book.comments.length }} comments.</p>
-                    <ul v-for="comment in book.comments">
-                        <li>{{ comment.comment }}</li>
+                    <p><strong>Title:</strong> {{ library.bookToShow.title}}</p>
+                    <p>This book has {{ library.bookToShow.comments ? library.bookToShow.comments.length : 0}} comment{{
+                        library.bookToShow.comments && library.bookToShow.comments.length > 1 ? "s" : ""}}.</p>
+                    <ul class="list-group">
+                        <li class="list-group-item"
+                            v-for="comment in library.bookToShow.comments">{{ comment.comment }}</li>
                     </ul>
+                    <hr>
+                    <form class="d-flex flex-column">
+                        <div class="form-group">
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Add new comment"
+                                   name="new_comment"
+                                   v-model="comment"/>
+                        </div>
+                        <div class="form-group text-right">
+                            <button type="button"
+                                    class="btn btn-warning"
+                                    v-on:click="addNewComment">Add
+                            </button>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button
                             type="button"
                             class="btn btn-secondary"
-                            v-on:click="closeModal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                            v-on:click="closeModal">Close
+                    </button>
                 </div>
             </div>
         </div>
@@ -32,50 +52,51 @@
 </template>
 
 <script lang="ts">
-    import axios from "axios";
     import Vue from "vue";
     import Component from "vue-class-component";
+    import { Action, State } from "vuex-class";
+    import { ILibraryState } from "../store/library/types";
 
-    @Component({
-        props: {
-            isOpen: Boolean,
-            book: Object,
-            toggleModal: Function
-        }
-    })
+    const namespace: string = "library";
+
+    @Component
     export default class BookDetailModal extends Vue {
-        public book: object = {};
-        public isUpdated: boolean = false;
+        @State("library")
+        public library: ILibraryState;
+        public comment: string = "";
+
+        @Action("toggleBookDetailsModal", { namespace })
+        private toggleBookDetailsModal: any;
+
+        @Action("addNewComment", { namespace })
+        private addComment: any;
+
+        @Action("increaseBookCommentCount", { namespace })
+        private increaseBookCommentCount: any;
 
         public closeModal() {
-            this.$props.toggleModal();
+            this.toggleBookDetailsModal(false);
         }
 
-        public async updated() {
-            if (this.$props.isOpen && !this.isUpdated) {
-                try {
-                    const response: any = await axios.get(`/api/books/${this.$props.book._id}`);
-
-                    if (typeof response.data.book === "string") {
-                        throw new Error(response.data.book);
-                    }
-                    this.book = response.data.book;
-                    this.isUpdated = true;
-                    //tslint:disable
-                    console.log(response);
-                } catch (e) {
-                    alert(e.message);
-                }
-            } else {
-                this.isUpdated = false;
-            }
+        public async addNewComment() {
+            const id = this.library.bookToShow ? this.library.bookToShow._id : "no";
+            await this.addComment({
+                id,
+                comment: this.comment || ""
+            });
+            this.increaseBookCommentCount(id);
+            this.comment = "";
         }
     }
 </script>
 
 <style scoped>
     .open {
-        background-color: rgba(10,10,10,0.8);
+        background-color: rgba(10, 10, 10, 0.8);
         display: block;
+    }
+
+    ul.list-group {
+        padding-bottom: 48px;
     }
 </style>

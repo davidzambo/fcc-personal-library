@@ -13,7 +13,7 @@
     "class-name": true,
     "encoding": true,
     "indent": [true, "spaces", 4],
-    "interface-name": [true, "never-prefix"],
+    "interface-name": [true, "always-prefix"],
     "max-line-length": {
       "options": [120]
     },
@@ -47,7 +47,7 @@
           "functions": "never",
           "typeLiterals": "ignore"
         },
-        "esSpecCompliant": true
+        "esSpecCompilant": true
       }
     ],
     "typedef-whitespace": [true, {

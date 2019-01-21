@@ -7,7 +7,7 @@
             <span class="badge badge-primary badge-pill">{{ renderComments }}</span>
         </span>
         <span class="ml-auto">
-            <button @click="viewBookDetails(book)" class="btn btn-sm btn-primary mr-1">
+            <button v-on:click="showBookDetails(book._id)" class="btn btn-sm btn-primary mr-1">
                 view details
             </button>
         </span>
@@ -15,44 +15,27 @@
 </template>
 
 <script lang="ts">
-    import axios from "axios";
     import Vue from "vue";
+    import Component from "vue-class-component";
+    import { Action } from "vuex-class";
 
-    const BookProps = Vue.extend({
+    const namespace: string = "library";
+
+    @Component({
         props: {
-            book: Object,
-            showDetails: Function,
+            book: Object
         }
-    });
-
-    export default class Book extends BookProps {
+    })
+    export default class Book extends Vue {
+        @Action("showBookDetails", { namespace }) public showBookDetails: any;
         public constructor(props: any) {
             super(props);
         }
 
         public get renderComments() {
-            let result = this.book.commentcount;
-            result += this.book.commentcount > 1 ? " comments" : " comment";
+            let result = this.$props.book.commentcount;
+            result += this.$props.book.commentcount > 1 ? " comments" : " comment";
             return result;
-        }
-
-        public async deleteBook() {
-            //tslint:disable
-            console.log(this.book._id);
-            try {
-                const response = await axios.get(`/api/books/${this.book._id}`);
-
-                // tslint:disable
-                console.log(response, this, this.book);
-            } catch (e) {
-                // tslint:disable
-                console.log(e);
-            }
-        }
-
-        public viewBookDetails(book: any): void {
-            console.log(this.$props);
-            this.$props.showDetails(book);
         }
     }
 </script>

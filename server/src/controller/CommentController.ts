@@ -52,7 +52,7 @@ export class CommentController {
                book: {
                    _id: book._id,
                    title: book.title,
-                   comments: book.comments.map((b: any) => b.comment)
+                   comments: book.comments
                }
             });
         } catch (e) {

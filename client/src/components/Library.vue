@@ -1,54 +1,46 @@
 <template>
     <div>
         <h3>Books in your library:</h3>
-        <ul class="list-group" v-for="book in books">
-            <Book v-bind:book="book" v-bind:showDetails="showDetails"/>
+        <ul class="list-group">
+            <Book v-for="book in library.books"
+                  :key="book.id"
+                  v-bind:book="book"/>
         </ul>
         <BookDetailModal
-                v-bind:book="bookToShow"
-                v-bind:isOpen="isBookDetailModalOpen"
-                v-bind:toggleModal="toggleOpen"/>
+                v-if="library.isBookDetailModalOpen"
+                v-bind:book="library.bookToShow"
+                v-bind:isOpen="library.isBookDetailModalOpen"/>
     </div>
 </template>
-
 <script lang="ts">
     import Vue from "vue";
     import Component from "vue-class-component";
+    import { Action, State } from "vuex-class";
+    import { ILibraryState } from "../store/library/types";
     import Book from "./Book.vue";
     import BookDetailModal from "./BookDetailModal.vue";
 
+    const namespace: string = "library";
+
     @Component({
-        props: {
-            books: Array,
-        },
         components: {
             BookDetailModal,
             Book,
-        }
+        },
     })
     export default class Library extends Vue {
-        public bookToShow: any;
-        public isBookDetailModalOpen: boolean;
+        @State("library")
+        public library: ILibraryState;
 
-        constructor(props: any) {
-            super(props);
+        @Action("fetchBookList", { namespace })
+        public fetchBookList: any;
 
-            this.bookToShow = {
-                title: "Lófasz"
-            };
-            this.isBookDetailModalOpen = false;
-        }
-
-        public showDetails(book: any) {
-            this.bookToShow = book;
-            this.isBookDetailModalOpen = true;
-        }
-
-        public toggleOpen() {
-            this.isBookDetailModalOpen = !this.isBookDetailModalOpen;
+        public mounted() {
+            this.fetchBookList();
         }
     }
 </script>
+
 
 <style scoped>
 
