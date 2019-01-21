@@ -27,10 +27,22 @@ export const mutations: MutationTree<ILibraryState> = {
         const books = state.books;
         if (books) {
             const index = books.findIndex((book: IBook) => book._id === id);
-            if (index && books[index] && books[index].commentcount) {
-                books[index].commentcount++;
+            if (index) {
+                if (books[index]) {
+                    if (books[index].commentcount) {
+                        books[index].commentcount++;
+                    }
+                }
             }
         }
+    },
+    DELETE_BOOK(state, id: string) {
+        let books = state.books;
+        books = books.filter((book: IBook) => {
+            return book._id !== id;
+        });
+        state.books = books;
+        state.isBookDetailModalOpen = false;
     },
     ERROR_HANDLER(state, error: Error) {
         state.hasError = true;

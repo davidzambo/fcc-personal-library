@@ -47,7 +47,9 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
         padding-top: 20px;
+    }
+    .library {
+        flex-grow: 1;
     }
 </style>

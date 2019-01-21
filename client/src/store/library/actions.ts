@@ -12,8 +12,20 @@ export const actions: ActionTree<ILibraryState, IRootState> = {
         } catch (e) {
             // tslint:disable-next-line
             console.log(e.message);
-            commit("errorHandler", e);
+            commit("ERROR_HANDLER", e);
         }
+    },
+    async addNewBook({commit}, title: string) : Promise<any> {
+      try {
+          await axios.post("/api/books/", {
+              title
+          });
+          commit("ADD_NEW_BOOK", title);
+      } catch (e) {
+          // tslint:disable-next-line
+          console.log(e.message);
+          commit("ERROR_HANDLER", e);
+      }
     },
     toggleDesctiptionModal({commit}) {
         commit("TOGGLE_DESCRIPTION_MODAL");
@@ -39,6 +51,16 @@ export const actions: ActionTree<ILibraryState, IRootState> = {
     },
     increaseBookCommentCount({commit}, id: string) {
         commit("INCREASE_BOOK_COMMENT_COUNT", id);
+    },
+    async deleteBook({commit}, id: string) : Promise<any> {
+      try {
+          await axios.delete(`/api/books/${id}`);
+          commit("DELETE_BOOK", id);
+      } catch (e) {
+          // tslint:disable-next-line
+          console.log(e.message);
+          commit("ERROR_HANDLER", e);
+      }
     },
     async showBookDetails({commit}, id: string) : Promise<any> {
         try {

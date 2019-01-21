@@ -40,6 +40,10 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-danger"
+                            v-on:click="removeBook">Remove book
+                    </button>
                     <button
                             type="button"
                             class="btn btn-secondary"
@@ -74,6 +78,9 @@
         @Action("increaseBookCommentCount", { namespace })
         private increaseBookCommentCount: any;
 
+        @Action("deleteBook", { namespace })
+        private deleteBook: any;
+
         public closeModal() {
             this.toggleBookDetailsModal(false);
         }
@@ -86,6 +93,13 @@
             });
             this.increaseBookCommentCount(id);
             this.comment = "";
+        }
+
+        public removeBook() {
+            const book = this.library && this.library.bookToShow;
+            if (book) {
+                this.deleteBook(book._id);
+            }
         }
     }
 </script>
