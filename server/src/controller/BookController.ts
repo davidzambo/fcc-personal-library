@@ -27,15 +27,19 @@ export class BookController {
                 },
             });
             await book.save();
-            return res.json({
-                book: {
-                    _id: book._id,
-                    title: book.title
-                },
+
+            return res.status(201)
+                .json({
+                    book: {
+                        _id: book._id,
+                        title: book.title,
+                        commentcount: 0
+                    },
             });
         } catch (e) {
-            return res.json({
-                error: e.message,
+            return res.status(200)
+                .json({
+                    error: e.message,
             });
         }
     }

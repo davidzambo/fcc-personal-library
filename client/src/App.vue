@@ -4,12 +4,14 @@
         <ProjectDescription v-if="library.isDescriptionModalOpen"/>
         <Library/>
         <Footer/>
+        <ErrorModal/>
     </div>
 </template>
 <script lang="ts">
     import Vue from "vue";
     import Component from "vue-class-component";
     import { State } from "vuex-class";
+    import ErrorModal from "./components/ErrorModal.vue";
     import Footer from "./components/Footer.vue";
     import Library from "./components/Library.vue";
     import PageTitle from "./components/PageTitle.vue";
@@ -18,6 +20,7 @@
 
     @Component({
         components: {
+            ErrorModal,
             PageTitle,
             Footer,
             Library,
@@ -40,7 +43,8 @@
     }
 
     #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        @import url('https://fonts.googleapis.com/css?family=Overlock+SC');
+        font-family: 'Overlock SC', cursive;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         color: #2c3e50;

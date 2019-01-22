@@ -9,7 +9,7 @@ const isDebug: boolean = process.env.NODE_ENV !== "production";
 
 const store: StoreOptions<IRootState> = {
     state: {
-        version: "1.0"
+        version: "1.0",
     },
     modules: {
         library

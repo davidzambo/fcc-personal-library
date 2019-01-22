@@ -1,13 +1,67 @@
 <template>
-    $END$
+    <div class="modal"
+         v-if="hasError"
+         tabindex="1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title"><span class="sad-face">: (</span>Something went wrong...</h5>
+                    <button
+                            type="button"
+                            class="close"
+                            aria-label="Close"
+                            v-on:click="closeModal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body pt-4 pb-5">
+                    {{ message }}
+                </div>
+                <div class="modal-footer">
+                    <button
+                            type="button"
+                            class="btn btn-secondary"
+                            v-on:click="closeModal">OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
-<script>
-    export default {
-        name: "ErrorModal"
+<script lang="ts">
+    import Vue from "vue";
+    import Component from "vue-class-component";
+    import { Action, State } from "vuex-class";
+    import { IRootState } from "../store/types";
+
+    const namespace: string = "library";
+
+    @Component
+    export default class ErrorModal extends Vue {
+        @State((state: IRootState) => state.library.hasError)
+        public hasError: boolean;
+
+        @State((state: IRootState) => state.library.errorMessage)
+        public message: string;
+
+        @Action("toggleErrorModal", { namespace })
+        private toggleErrorModal: any;
+
+        public closeModal() : void {
+            this.toggleErrorModal(false);
+        }
     }
 </script>
 
 <style scoped>
-
+    .modal {
+        display: block;
+        background: rgba(0,0,0,0.8);
+    }
+    .sad-face {
+        font-size: 120%;
+        font-weight: bold;
+        padding-right: 1rem;
+    }
 </style>

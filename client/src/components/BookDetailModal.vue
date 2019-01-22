@@ -4,7 +4,7 @@
          tabindex="1" role="dialog" aria-hidden="false">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-info text-white">
                     <h5 class="modal-title">Book details</h5>
                     <button
                             type="button"
@@ -81,15 +81,22 @@
         @Action("deleteBook", { namespace })
         private deleteBook: any;
 
+        @Action("reportAnError", { namespace })
+        private reportAnError: any;
+
         public closeModal() {
             this.toggleBookDetailsModal(false);
         }
 
-        public async addNewComment() {
+        public async addNewComment(): void {
+            if (!this.comment) {
+                this.reportAnError(new Error("You forgot to enter you comment!"));
+                return;
+            }
             const id = this.library.bookToShow ? this.library.bookToShow._id : "no";
             await this.addComment({
                 id,
-                comment: this.comment || ""
+                comment: this.comment
             });
             this.increaseBookCommentCount(id);
             this.comment = "";
@@ -97,9 +104,11 @@
 
         public removeBook() {
             const book = this.library && this.library.bookToShow;
-            if (book) {
-                this.deleteBook(book._id);
+            if (!book) {
+                this.reportAnError(new Error("You forgot to enter you comment!"));
+                return;
             }
+            this.deleteBook(book._id);
         }
     }
 </script>

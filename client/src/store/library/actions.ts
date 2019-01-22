@@ -17,10 +17,14 @@ export const actions: ActionTree<ILibraryState, IRootState> = {
     },
     async addNewBook({commit}, title: string) : Promise<any> {
       try {
-          await axios.post("/api/books/", {
+          const response = await axios.post("/api/books/", {
               title
           });
-          commit("ADD_NEW_BOOK", title);
+          if (response.status === 201) {
+              commit("ADD_NEW_BOOK", response.data.book);
+          } else {
+              commit("ERROR_HANDLER");
+          }
       } catch (e) {
           // tslint:disable-next-line
           console.log(e.message);
@@ -33,6 +37,12 @@ export const actions: ActionTree<ILibraryState, IRootState> = {
     toggleBookDetailsModal({commit}) {
         commit("TOGGLE_BOOK_DETAIL_MODAL");
     },
+    toggleErrorModal({commit}, isOpen?: boolean) {
+        commit("TOGGLE_ERROR_MODAL", isOpen);
+    },
+    reportAnError({commit}, error: Error) {
+        commit("ERROR_HANDLER", error);
+    },
     async addNewComment({commit}, {
         id,
         comment,
@@ -41,7 +51,6 @@ export const actions: ActionTree<ILibraryState, IRootState> = {
             const response: any = await axios.post(`/api/books/${id}`, {
                 comment
             });
-            commit("ADD_NEW_COMMENT", comment);
             commit("SET_BOOK_TO_SHOW", response.data.book);
         } catch (e) {
             // tslint:disable-next-line

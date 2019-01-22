@@ -23,6 +23,13 @@ export const mutations: MutationTree<ILibraryState> = {
             state.isBookDetailModalOpen = isOpen;
         }
     },
+    TOGGLE_ERROR_MODAL(state, hasError?: boolean) {
+      if (typeof hasError === "undefined") {
+          state.hasError = !state.hasError;
+      } else {
+          state.hasError = hasError;
+      }
+    },
     INCREASE_BOOK_COMMENT_COUNT(state, id: string) {
         const books = state.books;
         if (books) {
@@ -36,6 +43,9 @@ export const mutations: MutationTree<ILibraryState> = {
             }
         }
     },
+    ADD_NEW_BOOK(state, book: IBook) {
+        state.books.push(book);
+    },
     DELETE_BOOK(state, id: string) {
         let books = state.books;
         books = books.filter((book: IBook) => {
@@ -45,6 +55,8 @@ export const mutations: MutationTree<ILibraryState> = {
         state.isBookDetailModalOpen = false;
     },
     ERROR_HANDLER(state, error: Error) {
+        // tslint:disable-next-line
+        console.log(error);
         state.hasError = true;
         state.errorMessage = error.message;
     }

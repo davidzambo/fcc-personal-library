@@ -6,16 +6,14 @@
                   :key="book.id"
                   v-bind:book="book"/>
         </ul>
-        <BookDetailModal
-                v-if="library.isBookDetailModalOpen"
-                v-bind:book="library.bookToShow"
-                v-bind:isOpen="library.isBookDetailModalOpen"/>
+        <BookDetailModal/>
         <hr>
         <form>
             <div class="form-group">
                 <input type="text"
                         class="form-control"
-                        placeholder="Add new book">
+                        placeholder="Add new book"
+                        v-model="newBook">
             </div>
             <button type="button"
                     class="btn btn-warning"
@@ -40,23 +38,30 @@
         },
     })
     export default class Library extends Vue {
+        public newBook: string = "";
         @State("library")
-        public library: ILibraryState
+        public library: ILibraryState;
 
         @Action("addNewBook", { namespace })
         private addBook: any;
 
-        public newBook: string = '';
+        @Action("reportAnError", { namespace })
+        private reportAnError: any;
 
         @Action("fetchBookList", { namespace })
-        public fetchBookList: any;
+        private fetchBookList: any;
 
         public mounted() {
             this.fetchBookList();
         }
 
-        public addNewBook() {
+        public addNewBook() : void {
+            if (!this.newBook) {
+                this.reportAnError(new Error("You forgot to enter the title of the book!"));
+                return;
+            }
             this.addBook(this.newBook);
+            this.newBook = "";
         }
     }
 </script>

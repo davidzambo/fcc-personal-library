@@ -2,11 +2,11 @@
     <li class="list-group-item d-flex flex-row justify-content-between">
         <span>
             <h4 class="d-inline">
-                <strong>Title:</strong> {{book.title}}
-            </h4>
+                <strong>{{book.title}} </strong>
+            </h4><br>
             <span class="badge badge-primary badge-pill">{{ renderComments }}</span>
         </span>
-        <span class="ml-auto">
+        <span class="my-auto mr-0">
             <button v-on:click="showBookDetails(book._id)" class="btn btn-sm btn-primary mr-1">
                 view details
             </button>
@@ -41,5 +41,7 @@
 </script>
 
 <style scoped>
-
+    button {
+        vertical-align: middle;
+    }
 </style>
