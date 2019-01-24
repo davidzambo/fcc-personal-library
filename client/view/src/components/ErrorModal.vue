@@ -15,7 +15,7 @@
                     </button>
                 </div>
                 <div class="modal-body pt-4 pb-5">
-                    {{ message }}
+                    {{ errorMessage }}
                 </div>
                 <div class="modal-footer">
                     <button
@@ -32,19 +32,17 @@
 <script lang="ts">
     import Vue from "vue";
     import Component from "vue-class-component";
-    import { Action, State } from "vuex-class";
-    import { IRootState } from "../store/types";
+    import { Action } from "vuex-class";
 
     const namespace: string = "library";
 
-    @Component
+    @Component({
+        props: {
+            hasError: Boolean,
+            errorMessage: String
+        }
+    })
     export default class ErrorModal extends Vue {
-        @State((state: IRootState) => state.library.hasError)
-        public hasError: boolean;
-
-        @State((state: IRootState) => state.library.errorMessage)
-        public message: string;
-
         @Action("toggleErrorModal", { namespace })
         private toggleErrorModal: any;
 

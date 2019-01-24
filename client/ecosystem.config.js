@@ -1,6 +1,6 @@
 module.exports = {
     apps: [{
-        name: 'PersonalLibrary',
+        name: 'PersonalLibraryClient',
         script: 'src/index.ts',
         interpreter: 'ts-node',
         args: ['--no-daemon'],

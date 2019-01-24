@@ -1,6 +1,6 @@
 <template>
-    <div class="library">
-        <h3>Books in your library:</h3>
+    <div class="library py-4 my-4">
+        <h3 class="pb-2">Books in your library:</h3>
         <ul class="list-group">
             <Book v-for="book in library.books"
                   :key="book.id"
@@ -8,16 +8,16 @@
         </ul>
         <BookDetailModal/>
         <hr>
-        <form>
+        <form @submit.prevent class="text-right">
             <div class="form-group">
                 <input type="text"
                         class="form-control"
                         placeholder="Add new book"
-                        v-model="newBook">
+                        v-model.trim="newBook">
             </div>
             <button type="button"
-                    class="btn btn-warning"
-                    v-on:click="addNewBook">Add book</button>
+                    class="btn btn-warning btn-sm"
+                    @click="addNewBook">Add book</button>
         </form>
     </div>
 </template>

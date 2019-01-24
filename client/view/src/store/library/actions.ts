@@ -8,26 +8,19 @@ export const actions: ActionTree<ILibraryState, IRootState> = {
     async fetchBookList({commit}) : Promise<any> {
         try {
             const response = await axios.get("/api/books/");
-            commit("SET_BOOKS", response.data.books);
+            return commit("SET_BOOKS", response.data.books);
         } catch (e) {
-            // tslint:disable-next-line
-            console.log(e.message);
             commit("ERROR_HANDLER", e);
         }
     },
     async addNewBook({commit}, title: string) : Promise<any> {
       try {
-          const response = await axios.post("/api/books/", {
-              title
-          });
+          const response = await axios.post("/api/books/", {title});
           if (response.status === 201) {
-              commit("ADD_NEW_BOOK", response.data.book);
-          } else {
-              commit("ERROR_HANDLER");
+              return commit("ADD_NEW_BOOK", response.data.book);
           }
+          return commit("ERROR_HANDLER");
       } catch (e) {
-          // tslint:disable-next-line
-          console.log(e.message);
           commit("ERROR_HANDLER", e);
       }
     },
@@ -53,8 +46,6 @@ export const actions: ActionTree<ILibraryState, IRootState> = {
             });
             commit("SET_BOOK_TO_SHOW", response.data.book);
         } catch (e) {
-            // tslint:disable-next-line
-            console.log(e.message);
             commit("ERROR_HANDLER", e);
         }
     },
@@ -63,22 +54,22 @@ export const actions: ActionTree<ILibraryState, IRootState> = {
     },
     async deleteBook({commit}, id: string) : Promise<any> {
       try {
-          await axios.delete(`/api/books/${id}`);
+          const response = await axios.delete(`/api/books/${id}`);
+          if (response.data.error) {
+              return commit("ERROR_HANDLER", new Error(response.data.error || response.data));
+          }
           commit("DELETE_BOOK", id);
       } catch (e) {
-          // tslint:disable-next-line
-          console.log(e.message);
-          commit("ERROR_HANDLER", e);
+          // e.message || e.response.data || e.response.data.error
+          const message = e.message && e.response.data.error || e.response.data;
+          commit("ERROR_HANDLER", new Error(message));
       }
     },
     async showBookDetails({commit}, id: string) : Promise<any> {
         try {
             const response = await axios.get(`/api/books/${id}`);
             commit("SET_BOOK_TO_SHOW", response.data.book);
-            commit("TOGGLE_BOOK_DETAIL_MODAL", true);
         } catch (e) {
-            // tslint:disable-next-line
-            console.log(e.message);
             commit("ERROR_HANDLER", e);
         }
     }

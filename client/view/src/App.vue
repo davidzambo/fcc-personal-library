@@ -1,10 +1,11 @@
 <template>
-    <div id="app" class="container-fluid">
+    <div id="app" class="container-fluid" v-bind:class="{noScroll: library.isBookDetailModalOpen || library.hasError}">
         <PageTitle/>
-        <ProjectDescription v-if="library.isDescriptionModalOpen"/>
+        <ProjectDescription v-bind:isOpen="library.isDescriptionModalOpen"/>
         <Library/>
         <Footer/>
-        <ErrorModal/>
+        <ErrorModal v-bind:hasError="library.hasError"
+                    v-bind:errorMessage="library.errorMessage"/>
     </div>
 </template>
 <script lang="ts">
@@ -30,6 +31,17 @@
     export default class App extends Vue {
         @State("library")
         public library: ILibraryState;
+
+        public updated() {
+            const body = document.querySelector("body");
+            if (body) {
+                if (this.library.isBookDetailModalOpen || this.library.hasError) {
+                    body.classList.add("modal-open");
+                } else {
+                    body.classList.remove("modal-open");
+                }
+            }
+        }
     }
 </script>
 
@@ -48,10 +60,13 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         color: #2c3e50;
-        height: 100%;
+        min-height: 100%;
         display: flex;
         flex-direction: column;
-        padding-top: 20px;
+        padding-top: 20px;;
+    }
+    .modal-open {
+        overflow: hidden;
     }
     .library {
         flex-grow: 1;

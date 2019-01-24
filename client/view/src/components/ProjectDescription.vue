@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row" v-if="isOpen">
         <div class="col-12 bg-dark text-white py-4">
             <h3>User stories:</h3>
             <ul>
@@ -21,7 +21,11 @@
     import Vue from "vue";
     import Component from "vue-class-component";
 
-    @Component({})
+    @Component({
+        props: {
+            isOpen: Boolean,
+        }
+    })
     export default class ProjectDescription extends Vue {
     }
 </script>

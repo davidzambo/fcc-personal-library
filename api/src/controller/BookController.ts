@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import { connect, Types } from "mongoose";
-import { IBook } from "../../../client/src/store/library/types";
+import { connect, Types } from "mongoose";;
 import { Config } from "../lib/config";
 import { Book } from "../model/Book";
 

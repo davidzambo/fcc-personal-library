@@ -8,6 +8,7 @@ export const mutations: MutationTree<ILibraryState> = {
     },
     SET_BOOK_TO_SHOW(state, book: IBook) {
         state.bookToShow = book;
+        state.isBookDetailModalOpen = true;
     },
     TOGGLE_DESCRIPTION_MODAL(state, isOpen?: boolean) {
         if (typeof isOpen === "undefined") {
@@ -29,35 +30,28 @@ export const mutations: MutationTree<ILibraryState> = {
       } else {
           state.hasError = hasError;
       }
+      if (!state.hasError && state.errorMessage) {
+          state.errorMessage = undefined;
+      }
     },
     INCREASE_BOOK_COMMENT_COUNT(state, id: string) {
-        const books = state.books;
-        if (books) {
-            const index = books.findIndex((book: IBook) => book._id === id);
-            if (index) {
-                if (books[index]) {
-                    if (books[index].commentcount) {
-                        books[index].commentcount++;
-                    }
-                }
-            }
+        const books = (state as any).books;
+        const index = books.findIndex((book: IBook) => book._id === id);
+        if (index && books[index]) {
+            books[index].commentcount++;
         }
     },
     ADD_NEW_BOOK(state, book: IBook) {
         state.books.push(book);
     },
     DELETE_BOOK(state, id: string) {
-        let books = state.books;
-        books = books.filter((book: IBook) => {
+        state.books = state.books.filter((book: IBook) => {
             return book._id !== id;
         });
-        state.books = books;
         state.isBookDetailModalOpen = false;
     },
     ERROR_HANDLER(state, error: Error) {
-        // tslint:disable-next-line
-        console.log(error);
-        state.hasError = true;
         state.errorMessage = error.message;
+        state.hasError = true;
     }
 };

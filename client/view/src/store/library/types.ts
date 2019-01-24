@@ -7,9 +7,9 @@ export interface IBook {
 
 export interface ILibraryState {
     books: IBook[];
-    bookToShow: IBook|undefined;
+    bookToShow?: IBook;
     hasError: boolean;
-    errorMessage?: string|undefined;
+    errorMessage?: string;
     isDescriptionModalOpen: boolean;
     isBookDetailModalOpen: boolean;
 }

@@ -8,8 +8,7 @@ export const state: ILibraryState = {
     books: [],
     bookToShow: undefined,
     hasError: false,
-    errorMessage: undefined,
-    isBookDetailModalOpen: true,
+    isBookDetailModalOpen: false,
     isDescriptionModalOpen: false
 };
 const namespaced: boolean = true;

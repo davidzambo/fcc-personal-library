@@ -1,13 +1,14 @@
 <template>
     <li class="list-group-item d-flex flex-row justify-content-between">
         <span>
-            <h4 class="d-inline">
+            <h4>
                 <strong>{{book.title}} </strong>
-            </h4><br>
+            </h4>
             <span class="badge badge-primary badge-pill">{{ renderComments }}</span>
         </span>
         <span class="my-auto mr-0">
-            <button v-on:click="showBookDetails(book._id)" class="btn btn-sm btn-primary mr-1">
+            <button v-on:click="showBookDetails(book._id)"
+                    class="btn btn-sm btn-secondary mr-1">
                 view details
             </button>
         </span>
