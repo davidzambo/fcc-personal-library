@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { connect, Types } from "mongoose";
+import { IBook } from "../../../client/src/store/library/types";
 import { Config } from "../lib/config";
 import { Book } from "../model/Book";
 
@@ -83,21 +84,29 @@ export class BookController {
              * Handle invalid _id
              */
             if (!Types.ObjectId.isValid(req.params.id)) {
-                throw new Error("no book exists");
+                return res.json({ book: "no book exists"});
             }
 
             const id = Types.ObjectId(req.params.id);
             const book: any = await Book.findOne({_id: id});
 
             if (!book) {
-                throw new Error("no book exists");
+                return res.json({ book: "no book exists"});
+            }
+
+            if (book.created_by.ip !== req.ip || book.created_by.system !== req.headers["user-agent"]) {
+                return res.status(200)
+                    .json({
+                        error: "You cannot delete a book which is not registered by you!"
+                    });
             }
 
             await book.remove();
 
-            return res.json({ book: "delete successful"});
+            return res.status(201)
+                .json({ book: "delete successful"});
         } catch (e) {
-            return res.json({ book: e.message });
+            return res.json({ error: e });
         }
     }
 
