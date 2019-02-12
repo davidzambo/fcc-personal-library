@@ -19,6 +19,7 @@ export class Server implements ServerInterface {
     }
 
     public init() {
+        this.app.use(express.static("./view/"));
         // tslint:disable-next-line
         console.log("Initializing app...");
         this.app.use(express.static("./public"));

@@ -31,9 +31,15 @@
                                    v-model.trim="comment"/>
                         </div>
                         <div class="form-group text-right">
-                            <button type="button"
+                            <button v-if="!library.isAjaxRun"
+                                    type="button"
                                     class="btn btn-warning btn-sm"
                                     v-on:click="addNewComment">Add comment
+                            </button>
+                            <button v-if="library.isAjaxRun"
+                                    type="button"
+                                    class="btn btn-warning btn-sm">
+                                    <i class="fas fa-circle-notch fa-spin"></i> loading
                             </button>
                         </div>
                     </form>
@@ -83,24 +89,33 @@
         @Action("reportAnError", { namespace })
         private reportAnError: any;
 
+        @Action("toggleAjaxRun", { namespace })
+        private toggleAjaxRun: any;
+
         public closeModal() {
             this.toggleBookDetailsModal(false);
         }
 
-        public addNewComment() {
+        public async addNewComment() {
             if (!this.comment.length) {
                 this.reportAnError(new Error("You forgot to enter you comment!"));
                 return;
             }
+
+            this.toggleAjaxRun();
+
             const id = this.library.bookToShow ? this.library.bookToShow._id : "";
 
             if (id) {
-                this.addComment({
+                await this.addComment({
                     id,
                     comment: this.comment
                 });
                 this.increaseBookCommentCount(id);
                 this.comment = "";
+                setTimeout(() => {
+                    this.toggleAjaxRun();
+                }, 100);
             }
         }
 

@@ -9,7 +9,8 @@ export const state: ILibraryState = {
     bookToShow: undefined,
     hasError: false,
     isBookDetailModalOpen: false,
-    isDescriptionModalOpen: false
+    isDescriptionModalOpen: false,
+    isAjaxRun: false
 };
 const namespaced: boolean = true;
 

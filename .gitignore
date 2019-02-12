@@ -56,17 +56,20 @@ typings/
 
 # dotenv environment variables file
 .env
+./api/.env
 
 # next.js build output
 .next
 
 .idea/
 
+./api/build/
+
 #client
 ./client/.DS_Store
 ./client/node_modules
 ./client/dist
-./client.env
+./client/.env
 ./client/.env.local
 ./client/.env.*.local
 

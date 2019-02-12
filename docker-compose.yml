@@ -1,0 +1,16 @@
+version: '3'
+services:
+  api:
+    image: davidzambo/personal-library_api
+  client:
+    image: davidzambo/personal-library_client
+    volumes:
+      - view:/usr/src/app/dist/
+  nginx:
+    image: davidzambo/personal-library_nginx
+    volumes:
+      - view:/usr/share/nginx/html/
+    ports:
+      - "7123:80"
+volumes:
+  view:

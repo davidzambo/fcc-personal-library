@@ -44,6 +44,9 @@ export const mutations: MutationTree<ILibraryState> = {
     ADD_NEW_BOOK(state, book: IBook) {
         state.books.push(book);
     },
+    TOGGLE_AJAX_RUN(state) {
+        state.isAjaxRun = !state.isAjaxRun;
+    },
     DELETE_BOOK(state, id: string) {
         state.books = state.books.filter((book: IBook) => {
             return book._id !== id;

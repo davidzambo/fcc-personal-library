@@ -36,6 +36,9 @@ export const actions: ActionTree<ILibraryState, IRootState> = {
     reportAnError({commit}, error: Error) {
         commit("ERROR_HANDLER", error);
     },
+    toggleAjaxRun({commit}) {
+        commit("TOGGLE_AJAX_RUN");
+    },
     async addNewComment({commit}, {
         id,
         comment,

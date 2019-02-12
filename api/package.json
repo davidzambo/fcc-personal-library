@@ -36,7 +36,7 @@
     "build": "tsc",
     "dev": "pm2 start ecosystem.config.js --no-daemon",
     "debug": "pm2 start ecosystem.config.js --no-daemon --env DEBUG=*",
-    "production": "yarn build && pm2-runtime ./dist/index.js",
+    "production": "yarn build && NODE_ENV=production pm2-runtime ./build/index.js",
     "production-ts": "pm2-runtime ./src/index.ts",
     "test": "mocha -r ts-node/register --exit tests/*.ts"
   }

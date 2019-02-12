@@ -13,11 +13,10 @@
     "class-name": true,
     "encoding": true,
     "indent": [true, "spaces", 4],
-    "interface-name": [true, "never-prefix"],
+    "interface-name": [true, "always-prefix"],
     "max-line-length": {
       "options": [120]
     },
-    "new-parents": true,
     "no-arg": true,
     "no-bitwise": true,
     "no-conditional-assignment": true,
@@ -38,6 +37,7 @@
     "no-unused-variable": true,
     "object-literal-sort-keys": false,
     "ordered-imports": true,
+    "quotemark": [true, "double"],
     "trailing-comma": [
       false,
       {
@@ -47,7 +47,7 @@
           "functions": "never",
           "typeLiterals": "ignore"
         },
-        "esSpecCompliant": true
+        "esSpecCompilant": true
       }
     ],
     "typedef-whitespace": [true, {

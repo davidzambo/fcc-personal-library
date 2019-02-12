@@ -15,9 +15,16 @@
                         placeholder="Add new book"
                         v-model.trim="newBook">
             </div>
-            <button type="button"
+            <button v-if="!library.isAjaxRun"
+                    type="button"
                     class="btn btn-warning btn-sm"
-                    @click="addNewBook">Add book</button>
+                    @click="addNewBook">Add book
+            </button>
+            <button v-if="library.isAjaxRun"
+                    type="button"
+                    class="btn btn-warning btn-sm">
+                <i class="fas fa-circle-notch fa-spin"></i> loading
+            </button>
         </form>
     </div>
 </template>
@@ -51,17 +58,28 @@
         @Action("fetchBookList", { namespace })
         private fetchBookList: any;
 
+        @Action("toggleAjaxRun", { namespace })
+        private toggleAjaxRun: any;
+
+
         public mounted() {
             this.fetchBookList();
         }
 
-        public addNewBook() : void {
+        public async addNewBook() : Promise<any> {
             if (!this.newBook) {
                 this.reportAnError(new Error("You forgot to enter the title of the book!"));
                 return;
             }
-            this.addBook(this.newBook);
+            this.toggleAjaxRun();
+
+            await this.addBook(this.newBook);
+
             this.newBook = "";
+
+            setTimeout(() => {
+                this.toggleAjaxRun();
+            }, 100);
         }
     }
 </script>

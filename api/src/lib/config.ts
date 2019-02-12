@@ -12,18 +12,19 @@ export class Config implements ConfigInterface {
 
     public constructor() {
         dotenv.config();
+
         switch (process.env.NODE_ENV) {
             case "test":
-                this.DB = process.env.DB_ADDRESS_TEST;
+                this.DB = process.env.DB_URI_TEST;
                 this.PORT = 5000;
                 break;
             case "production":
-                this.DB = process.env.DB_ADDRESS_PROD;
+                this.DB = process.env.DB_URI_PROD;
                 this.PORT = 4000;
                 break;
             default:
-                this.DB = process.env.DB_ADDRESS_DEV;
-                this.PORT = 3000;
+                this.DB = process.env.DB_URI_DEV;
+                this.PORT = Number(process.env.PORT) || 3000;
                 break;
         }
     }

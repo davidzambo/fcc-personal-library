@@ -12,4 +12,5 @@ export interface ILibraryState {
     errorMessage?: string;
     isDescriptionModalOpen: boolean;
     isBookDetailModalOpen: boolean;
+    isAjaxRun: boolean;
 }
